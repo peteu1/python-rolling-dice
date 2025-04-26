@@ -3,8 +3,9 @@
 This program simulates rolling dice with a graphical user interface.
 
 ## Features
-- Two dice that display random values
+- Dice that display random values
 - Roll dice button to generate new values
+- Dropdown to select how many dice to roll (1-5)
 - Total display showing the sum of the dice values
 - Quit button to exit the application
 
@@ -13,6 +14,3 @@ Run the `roller.py` file with Python:
 ```
 python roller.py
 ```
-
-## Modified Version
-This version adds a "Total" display that shows the sum of both dice.

@@ -2,36 +2,12 @@
 """Simple object oriented graphics library  
 
 The library is designed to make it very easy for novice programmers to
-experiment with computer graphics in an object oriented fashion. It is
-written by John Zelle for use with the book "Python Programming: An
-Introduction to Computer Science" (Franklin, Beedle & Associates).
-
-LICENSE: This is open-source software released under the terms of the
-GPL (http://www.gnu.org/licenses/gpl.html).
-
-PLATFORMS: The package is a wrapper around Tkinter and should run on
-any platform where Tkinter is available.
-
-INSTALLATION: Put this file somewhere where Python can see it.
+experiment with computer graphics in an object oriented fashion.
 
 OVERVIEW: There are two kinds of objects in the library. The GraphWin
 class implements a window where drawing can be done and various
-GraphicsObjects are provided that can be drawn into a GraphWin. As a
-simple example, here is a complete program to draw a circle of radius
-10 centered in a 100x100 window:
+GraphicsObjects are provided that can be drawn into a GraphWin.
 
---------------------------------------------------------------------
-from graphics import *
-
-def main():
-    win = GraphWin("My Circle", 100, 100)
-    c = Circle(Point(50,50), 10)
-    c.draw(win)
-    win.getMouse() # Pause to view result
-    win.close()    # Close window when done
-
-main()
---------------------------------------------------------------------
 GraphWin objects support coordinate transformation through the
 setCoords method and mouse and keyboard interaction methods.
 
@@ -55,110 +31,9 @@ manipulation, Pixmap. A pixmap can be loaded from a file and displayed
 using an Image object. Both getPixel and setPixel methods are provided
 for manipulating the image.
 
-DOCUMENTATION: For complete documentation, see Chapter 4 of "Python
-Programming: An Introduction to Computer Science" by John Zelle,
-published by Franklin, Beedle & Associates.  Also see
-http://mcsp.wartburg.edu/zelle/python for a quick reference"""
+See http://mcsp.wartburg.edu/zelle/python for a quick reference"""
 
 __version__ = "5.0"
-
-# Version 5 8/26/2016
-#     * update at bottom to fix MacOS issue causing askopenfile() to hang
-#     * update takes an optional parameter specifying update rate
-#     * Entry objects get focus when drawn
-#     * __repr_ for all objects
-#     * fixed offset problem in window, made canvas borderless
-
-# Version 4.3 4/25/2014
-#     * Fixed Image getPixel to work with Python 3.4, TK 8.6 (tuple type handling)
-#     * Added interactive keyboard input (getKey and checkKey) to GraphWin
-#     * Modified setCoords to cause redraw of current objects, thus
-#       changing the view. This supports scrolling around via setCoords.
-#
-# Version 4.2 5/26/2011
-#     * Modified Image to allow multiple undraws like other GraphicsObjects
-# Version 4.1 12/29/2009
-#     * Merged Pixmap and Image class. Old Pixmap removed, use Image.
-# Version 4.0.1 10/08/2009
-#     * Modified the autoflush on GraphWin to default to True
-#     * Autoflush check on close, setBackground
-#     * Fixed getMouse to flush pending clicks at entry
-# Version 4.0 08/2009
-#     * Reverted to non-threaded version. The advantages (robustness,
-#         efficiency, ability to use with other Tk code, etc.) outweigh
-#         the disadvantage that interactive use with IDLE is slightly more
-#         cumbersome.
-#     * Modified to run in either Python 2.x or 3.x (same file).
-#     * Added Image.getPixmap()
-#     * Added update() -- stand alone function to cause any pending
-#           graphics changes to display.
-#
-# Version 3.4 10/16/07
-#     Fixed GraphicsError to avoid "exploded" error messages.
-# Version 3.3 8/8/06
-#     Added checkMouse method to GraphWin
-# Version 3.2.3
-#     Fixed error in Polygon init spotted by Andrew Harrington
-#     Fixed improper threading in Image constructor
-# Version 3.2.2 5/30/05
-#     Cleaned up handling of exceptions in Tk thread. The graphics package
-#     now raises an exception if attempt is made to communicate with
-#     a dead Tk thread.
-# Version 3.2.1 5/22/05
-#     Added shutdown function for tk thread to eliminate race-condition
-#        error "chatter" when main thread terminates
-#     Renamed various private globals with _
-# Version 3.2 5/4/05
-#     Added Pixmap object for simple image manipulation.
-# Version 3.1 4/13/05
-#     Improved the Tk thread communication so that most Tk calls
-#        do not have to wait for synchonization with the Tk thread.
-#        (see _tkCall and _tkExec)
-# Version 3.0 12/30/04
-#     Implemented Tk event loop in separate thread. Should now work
-#        interactively with IDLE. Undocumented autoflush feature is
-#        no longer necessary. Its default is now False (off). It may
-#        be removed in a future version.
-#     Better handling of errors regarding operations on windows that
-#       have been closed.
-#     Addition of an isClosed method to GraphWindow class.
-
-# Version 2.2 8/26/04
-#     Fixed cloning bug reported by Joseph Oldham.
-#     Now implements deep copy of config info.
-# Version 2.1 1/15/04
-#     Added autoflush option to GraphWin. When True (default) updates on
-#        the window are done after each action. This makes some graphics
-#        intensive programs sluggish. Turning off autoflush causes updates
-#        to happen during idle periods or when flush is called.
-# Version 2.0
-#     Updated Documentation
-#     Made Polygon accept a list of Points in constructor
-#     Made all drawing functions call TK update for easier animations
-#          and to make the overall package work better with
-#          Python 2.3 and IDLE 1.0 under Windows (still some issues).
-#     Removed vestigial turtle graphics.
-#     Added ability to configure font for Entry objects (analogous to Text)
-#     Added setTextColor for Text as an alias of setFill
-#     Changed to class-style exceptions
-#     Fixed cloning of Text objects
-
-# Version 1.6
-#     Fixed Entry so StringVar uses _root as master, solves weird
-#            interaction with shell in Idle
-#     Fixed bug in setCoords. X and Y coordinates can increase in
-#           "non-intuitive" direction.
-#     Tweaked wm_protocol so window is not resizable and kill box closes.
-
-# Version 1.5
-#     Fixed bug in Entry. Can now define entry before creating a
-#     GraphWin. All GraphWins are now toplevel windows and share
-#     a fixed root (called _root).
-
-# Version 1.4
-#     Fixed Garbage collection of Tkinter images bug.
-#     Added ability to set text atttributes.
-#     Added Entry boxes.
 
 import time, os, sys
 
@@ -440,21 +315,14 @@ DEFAULT_CONFIG = {"fill":"",
 class GraphicsObject:
 
     """Generic base class for all of the drawable objects"""
-    # A subclass of GraphicsObject should override _draw and
-    #   and _move methods.
     
     def __init__(self, options):
-        # options is a list of strings indicating which options are
-        # legal for this object.
+        # options [str]: indicates legal options for this object
         
-        # When an object is drawn, canvas is set to the GraphWin(canvas)
-        #    object where it is drawn and id is the TK identifier of the
-        #    drawn shape.
         self.canvas = None
         self.id = None
 
-        # config is the dictionary of configuration options for the widget.
-        config = {}
+        config = {}  # dictionary of configuration options for the widget
         for option in options:
             config[option] = DEFAULT_CONFIG[option]
         self.config = config
@@ -808,7 +676,6 @@ class Entry(GraphicsObject):
                               fg = self.color,
                               font=self.font)
         self.entry.pack()
-        #self.setFill(self.fill)
         self.entry.focus_set()
         return canvas.create_window(x,y,window=frm)
 
@@ -828,24 +695,21 @@ class Entry(GraphicsObject):
         other.text.set(self.text.get())
         other.fill = self.fill
         return other
-
+    
     def setText(self, t):
         self.text.set(t)
 
-            
     def setFill(self, color):
         self.fill = color
         if self.entry:
             self.entry.config(bg=color)
 
-            
     def _setFontComponent(self, which, value):
         font = list(self.font)
         font[which] = value
         self.font = tuple(font)
         if self.entry:
             self.entry.config(font=self.font)
-
 
     def setFace(self, face):
         if face in ['helvetica','arial','courier','times roman']:
@@ -926,9 +790,7 @@ class Image(GraphicsObject):
 
     def getPixel(self, x, y):
         """Returns a list [r,g,b] with the RGB color values for pixel (x,y)
-        r,g,b are in range(256)
-
-        """
+        r,g,b are in range(256)"""
         
         value = self.img.get(x,y) 
         if type(value) ==  type(0):
@@ -939,17 +801,12 @@ class Image(GraphicsObject):
             return list(map(int, value.split())) 
 
     def setPixel(self, x, y, color):
-        """Sets pixel (x,y) to the given color
-        
-        """
+        """Sets pixel (x,y) to the given color"""
         self.img.put("{" + color +"}", (x, y))
-        
 
     def save(self, filename):
         """Saves the pixmap image to filename.
-        The format for the save image is determined from the filname extension.
-
-        """
+        The format for the save image is determined from the filname extension."""
         
         path, name = os.path.split(filename)
         ext = name.split(".")[-1]
@@ -1005,10 +862,6 @@ def test():
     win.getMouse()
     win.close()
 
-#MacOS fix 2
-#tk.Toplevel(_root).destroy()
-
-# MacOS fix 1
 update()
 
 if __name__ == "__main__":
