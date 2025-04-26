@@ -14,10 +14,13 @@ def main():
     dice_options = ["1", "2", "3", "4", "5"]
     dice_dropdown = Dropdown(win, Point(2.5, 9), 2, 0.8, dice_options, "Dice")
     
+<<<<<<< HEAD
     # Create a dropdown menu for selecting the number of sides
     sides_options = ["4", "6", "8", "10", "20"]
     sides_dropdown = Dropdown(win, Point(7.5, 9), 2, 0.8, sides_options, "Sides")
     
+=======
+>>>>>>> f3660654d1e08f9e599c543f824e67c349ba0d25
     # Initialize dice array - we'll create up to 5, but only display based on selection
     dice = []
     max_dice = 5
@@ -55,16 +58,23 @@ def main():
             # Get the number of dice to roll
             num_dice = dice_dropdown.get_value()
             
+<<<<<<< HEAD
             # Get the number of sides on each die
             sides = sides_dropdown.get_value()
             
+=======
+>>>>>>> f3660654d1e08f9e599c543f824e67c349ba0d25
             # Roll the dice and calculate total
             total = 0
             for i in range(max_dice):
                 if i < num_dice:
                     # Show and roll dice that are active
                     dice[i].show()
+<<<<<<< HEAD
                     value = randrange(1, sides + 1)
+=======
+                    value = randrange(1, 7)
+>>>>>>> f3660654d1e08f9e599c543f824e67c349ba0d25
                     dice[i].setValue(value)
                     total += value
                 else:
@@ -74,9 +84,14 @@ def main():
             # Update total display
             totalText.setText(f"Total: {total}")
             
+<<<<<<< HEAD
         # Check if dropdowns were clicked
         dice_dropdown.clicked(pt)
         sides_dropdown.clicked(pt)
+=======
+        # Check if dropdown was clicked
+        dice_dropdown.clicked(pt)
+>>>>>>> f3660654d1e08f9e599c543f824e67c349ba0d25
         
         # Get next mouse click
         pt = win.getMouse()
@@ -84,4 +99,8 @@ def main():
     win.close()
 
 
+<<<<<<< HEAD
 main()
+=======
+main()
+>>>>>>> f3660654d1e08f9e599c543f824e67c349ba0d25

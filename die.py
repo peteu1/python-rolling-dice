@@ -100,7 +100,10 @@ class DieView:
             self.pip5.undraw()
             self.pip6.undraw()
             self.pip7.undraw()
+<<<<<<< HEAD
             self.value_text.undraw()
+=======
+>>>>>>> f3660654d1e08f9e599c543f824e67c349ba0d25
             self.is_hidden = True
     
     def show(self):
@@ -114,7 +117,10 @@ class DieView:
             self.pip5.draw(self.win)
             self.pip6.draw(self.win)
             self.pip7.draw(self.win)
+<<<<<<< HEAD
             self.value_text.draw(self.win)
+=======
+>>>>>>> f3660654d1e08f9e599c543f824e67c349ba0d25
             self.is_hidden = False
             # Refresh the display of the pips
             self.setValue(1)
