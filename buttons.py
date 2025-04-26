@@ -64,6 +64,7 @@ class Dropdown:
         self.current_option = options[0]
         self.is_open = False
         self.option_buttons = []
+        self.label_text = label
         
         # Create the main dropdown button
         self.main_button = Button(win, center, width, height, f"{label}: {self.current_option}")
@@ -129,8 +130,8 @@ class Dropdown:
     def select_option(self, index):
         """Select an option from the dropdown"""
         self.current_option = self.options[index]
-        # Update the main button text
-        self.main_button.label.setText(f"Dice: {self.current_option}")
+        # Update the main button text with the correct label
+        self.main_button.label.setText(f"{self.label_text}: {self.current_option}")
         self.close_options()
     
     def get_value(self):

@@ -2,7 +2,7 @@ from graphics import *
 
 
 class DieView:
-    # shows graphical representation of a 6 sided dice
+    # shows graphical representation of a multi-sided dice
     def __init__(self, win, center, size):
         # create a view of the die e.g. d1=DieView(myWin,Point(40,50),20) its centered at 40,50 and length of 20
         self.win = win
@@ -28,6 +28,12 @@ class DieView:
         self.pip6 = self.__makePip(cx + offset, cy)
         self.pip7 = self.__makePip(cx + offset, cy + offset)
 
+        # Add text for display of larger numbers
+        self.value_text = Text(Point(cx, cy), "")
+        self.value_text.setSize(16)
+        self.value_text.setTextColor(self.foreground)
+        self.value_text.draw(win)
+        
         # draw an initial value
         self.setValue(1)
 
@@ -49,8 +55,9 @@ class DieView:
         self.pip5.setFill(self.background)
         self.pip6.setFill(self.background)
         self.pip7.setFill(self.background)
+        self.value_text.setText("")  # Clear any existing text
 
-        # turn correct pips on
+        # For values 1-6, show standard pip patterns
         if value == 1:
             self.pip4.setFill(self.foreground)
         elif value == 2:
@@ -71,13 +78,16 @@ class DieView:
             self.pip4.setFill(self.foreground)
             self.pip5.setFill(self.foreground)
             self.pip7.setFill(self.foreground)
-        else:
+        elif value == 6:
             self.pip1.setFill(self.foreground)
             self.pip2.setFill(self.foreground)
             self.pip3.setFill(self.foreground)
-            self.pip4.setFill(self.foreground)
             self.pip5.setFill(self.foreground)
+            self.pip6.setFill(self.foreground)
             self.pip7.setFill(self.foreground)
+        else:
+            # For values > 6, display the number as text
+            self.value_text.setText(str(value))
 
     def hide(self):
         """Hide the die by making it invisible"""
@@ -90,6 +100,7 @@ class DieView:
             self.pip5.undraw()
             self.pip6.undraw()
             self.pip7.undraw()
+            self.value_text.undraw()
             self.is_hidden = True
     
     def show(self):
@@ -103,6 +114,7 @@ class DieView:
             self.pip5.draw(self.win)
             self.pip6.draw(self.win)
             self.pip7.draw(self.win)
+            self.value_text.draw(self.win)
             self.is_hidden = False
             # Refresh the display of the pips
             self.setValue(1)
