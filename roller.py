@@ -15,6 +15,11 @@ def main():
     die2 = DieView(win, Point(7, 7), 2)
     rollButton = Button(win, Point(5, 4.5), 6, 1, "Roll Dice")
     rollButton.activate()
+
+    # Create the total display
+    totalText = Text(Point(5, 3), "Total: 0")
+    totalText.draw(win)
+
     quitButton = Button(win, Point(5, 1), 2, 1, "Quit")
 
     # Event Loop
@@ -25,6 +30,9 @@ def main():
             die1.setValue(value1)
             value2 = randrange(1, 7)
             die2.setValue(value2)
+            # Update total display
+            total = value1 + value2
+            totalText.setText(f"Total: {total}")
             quitButton.activate()
             pt = win.getMouse()
 
