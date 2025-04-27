@@ -5,20 +5,39 @@ from die import DieView
 
 
 def main():
-    # create application window
-    win = GraphWin("Dice Roller", 500, 400)
+    # create application window with modern styling
+    win = GraphWin("Dice Roller", 600, 450)
     win.setCoords(0, 0, 10, 10)
-    win.setBackground("green2")
+    win.setBackground("#2E3B4E")
+    
+    # Title of the app
+    title = Text(Point(5, 9.5), "Dice Roller")
+    title.setSize(20)
+    title.setStyle("bold")
+    title.setTextColor("white")
+    title.draw(win)
 
-    # Create a dropdown menu for selecting the number of dice
+    # Control Panel area
+    control_panel = Rectangle(Point(0.5, 7.5), Point(9.5, 8.75))
+    control_panel.setFill("#F8F9FA")
+    control_panel.setOutline("#DEE2E6")
+    control_panel.draw(win)
+    
     dice_options = ["1", "2", "3", "4", "5"]
-    dice_dropdown = Dropdown(win, Point(2.5, 9), 2, 0.8, dice_options, "Dice")
-    
-    # Create a dropdown menu for selecting the number of sides
+    dice_dropdown = Dropdown(win, Point(1.75, 8.125), 2, 0.75, dice_options, "Dice")
     sides_options = ["4", "6", "8", "10", "20"]
-    sides_dropdown = Dropdown(win, Point(7.5, 9), 2, 0.8, sides_options, "Sides")
+    sides_dropdown = Dropdown(win, Point(8.25, 8.125), 2, 0.75, sides_options, "Sides")
+    rollButton = Button(win, Point(5, 3), 1.35, 0.8, "ROLL")
+    rollButton.activate()
+
+    # Container for dice display area
+    dice_container = Rectangle(Point(0.5, 4), Point(9.5, 6.5))
+    dice_container.setFill("#FFFFFF")
+    dice_container.setOutline("#EEEEEE")
+    dice_container.setWidth(2)
+    dice_container.draw(win)
     
-    # Initialize dice array - we'll create up to 5, but only display based on selection
+    # Initialize dice array
     dice = []
     max_dice = 5
     
@@ -26,9 +45,9 @@ def main():
     positions = []
     for i in range(max_dice):
         x_pos = 1.5 + (i * 1.75)
-        positions.append(Point(x_pos, 7))
+        positions.append(Point(x_pos, 5.25))
     
-    # Create the dice views
+    # Create the dice views with modern styling
     for i in range(max_dice):
         die = DieView(win, positions[i], 1.5)
         # Initially hide dice beyond the first 2
@@ -36,16 +55,20 @@ def main():
             die.hide()
         dice.append(die)
 
-    # Buttons for interaction
-    rollButton = Button(win, Point(5, 4.5), 6, 1, "Roll Dice")
-    rollButton.activate()
-
-    # Create the total display
-    totalText = Text(Point(5, 3), "Total: 0")
-    totalText.setSize(16)
+    # Create the total display with modern styling
+    total_label = Text(Point(5, 2), "TOTAL")
+    total_label.setSize(12)
+    total_label.setTextColor("#DDDDDD")
+    total_label.draw(win)
+    
+    totalText = Text(Point(5, 1.5), "0")
+    totalText.setSize(24)
+    totalText.setStyle("bold")
+    totalText.setTextColor("#DDDDDD")
     totalText.draw(win)
-
-    quitButton = Button(win, Point(5, 1), 2, 1, "Quit")
+    
+    # Modern quit button
+    quitButton = Button(win, Point(9, 0.7), 1, 0.6, "✕")
     quitButton.activate()
 
     # Event Loop
@@ -72,7 +95,7 @@ def main():
                     dice[i].hide()
             
             # Update total display
-            totalText.setText(f"Total: {total}")
+            totalText.setText(str(total))
             
         # Check if dropdowns were clicked
         dice_dropdown.clicked(pt)
@@ -84,4 +107,5 @@ def main():
     win.close()
 
 
-main()
+if __name__ == "__main__":
+    main()

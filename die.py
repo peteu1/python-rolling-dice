@@ -1,25 +1,45 @@
 from graphics import *
 
-
 class DieView:
-    # shows graphical representation of a multi-sided dice
+    # shows graphical representation of a multi-sided dice with modern styling
     def __init__(self, win, center, size):
-        # create a view of the die e.g. d1=DieView(myWin,Point(40,50),20) its centered at 40,50 and length of 20
+        # create a modern view of the die
         self.win = win
         self.is_hidden = False    # Flag to track visibility
-        self.background = "white"  # color of face
-        self.foreground = "black"  # Thats for the pips
-        self.psize = 0.1 * size  # radius of each pip
-        hsize = size / 2.0  # size of die
-        offset = 0.6 * hsize  # distance from center to other pips
+        
+        # Modern color scheme
+        self.background = "#FFFFFF"     # White face
+        self.border = "#CCCCCC"         # Light gray border
+        self.foreground = "#333333"     # Dark gray pips
+        self.highlight = "#F8F9FA"      # Highlight for 3D effect
+        self.shadow = "#E9ECEF"         # Shadow for 3D effect
+        
+        self.psize = 0.1 * size        # radius of each pip
+        hsize = size / 2.0             # half size of die
+        offset = 0.6 * hsize           # distance from center to other pips
         cx, cy = center.getX(), center.getY()
+        
+        # Create rounded rectangle for die face
         p1 = Point(cx - hsize, cy - hsize)
         p2 = Point(cx + hsize, cy + hsize)
         self.rect = Rectangle(p1, p2)
-        self.rect.draw(win)
         self.rect.setFill(self.background)
+        self.rect.setOutline(self.border)
+        self.rect.setWidth(2)
+        self.rect.draw(win)
+        
+        # Create underlying shadow for 3D effect
+        shadow_offset = 0.05 * size
+        p1s = Point(cx - hsize + shadow_offset, cy - hsize - shadow_offset)
+        p2s = Point(cx + hsize + shadow_offset, cy + hsize - shadow_offset)
+        self.shadow_rect = Rectangle(p1s, p2s)
+        self.shadow_rect.setFill(self.shadow)
+        self.shadow_rect.setOutline(self.shadow)
+        self.shadow_rect.draw(win)
+        self.rect.undraw()
+        self.rect.draw(win)  # Redraw on top of shadow
 
-        # create 7 circles
+        # create 7 circles for pips
         self.pip1 = self.__makePip(cx - offset, cy - offset)
         self.pip2 = self.__makePip(cx - offset, cy)
         self.pip3 = self.__makePip(cx - offset, cy + offset)
@@ -30,7 +50,8 @@ class DieView:
 
         # Add text for display of larger numbers
         self.value_text = Text(Point(cx, cy), "")
-        self.value_text.setSize(16)
+        self.value_text.setSize(18)
+        self.value_text.setStyle("bold")
         self.value_text.setTextColor(self.foreground)
         self.value_text.draw(win)
         
@@ -92,6 +113,7 @@ class DieView:
     def hide(self):
         """Hide the die by making it invisible"""
         if not self.is_hidden:
+            self.shadow_rect.undraw()
             self.rect.undraw()
             self.pip1.undraw()
             self.pip2.undraw()
@@ -106,6 +128,7 @@ class DieView:
     def show(self):
         """Show the die if it's currently hidden"""
         if self.is_hidden:
+            self.shadow_rect.draw(self.win)
             self.rect.draw(self.win)
             self.pip1.draw(self.win)
             self.pip2.draw(self.win)
